@@ -1,0 +1,3 @@
+-keep class com.guardian.dialer.** { *; }
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="#1A1A2E">
+
+    <TextView
+        android:id="@+id/txtCallerNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+1 (555) 000-0000"
+        android:textSize="28sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtCallStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incoming call..."
+        android:textSize="16sp"
+        android:textColor="#AAAAAA"
+        android:layout_marginTop="8dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="48dp"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMute"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:text="Mute"
+            android:textSize="12sp"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_marginEnd="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSpeaker"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:text="Speaker"
+            android:textSize="12sp"
+            style="@style/Widget.Material3.Button.TonalButton" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAnswer"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="Answer"
+            android:textSize="14sp"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginEnd="32dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHangup"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="Hang up"
+            android:textSize="14sp"
+            android:backgroundTint="#F44336" />
+    </LinearLayout>
+
+</LinearLayout>
