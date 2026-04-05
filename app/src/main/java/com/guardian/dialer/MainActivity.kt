@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val requiredPermissions = arrayOf(
         Manifest.permission.CALL_PHONE,
         Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.READ_PHONE_NUMBERS,
         Manifest.permission.READ_CALL_LOG,
         Manifest.permission.READ_CONTACTS,
         Manifest.permission.RECORD_AUDIO,
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     ) { results ->
         val allGranted = results.values.all { it }
         if (allGranted) {
+            Prefs.seedFromBuildConfig(this) // re-seed to pick up phone number now that permission is granted
             requestDefaultDialer()
         } else {
             Toast.makeText(this, "Permissions required for Guardian Dialer", Toast.LENGTH_LONG).show()
@@ -49,6 +51,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Seed config from BuildConfig (local.properties) on first run
+        Prefs.seedFromBuildConfig(this)
 
         // Handle tel: intents (required for default dialer)
         handleDialIntent(intent)

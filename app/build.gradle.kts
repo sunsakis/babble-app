@@ -1,7 +1,16 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val localProps = Properties().also { props ->
+    val f = rootProject.file("local.properties")
+    if (f.exists()) props.load(f.inputStream())
+}
+
+fun localProp(key: String) = localProps.getProperty(key, "")
 
 android {
     namespace = "com.guardian.dialer"
@@ -13,6 +22,11 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
+
+        buildConfigField("String", "ELEVENLABS_API_KEY", "\"${localProp("ELEVENLABS_API_KEY")}\"")
+        buildConfigField("String", "ELEVENLABS_AGENT_ID", "\"${localProp("ELEVENLABS_AGENT_ID")}\"")
+        buildConfigField("String", "TEXTBEE_API_KEY",     "\"${localProp("TEXTBEE_API_KEY")}\"")
+        buildConfigField("String", "TEXTBEE_DEVICE_ID",   "\"${localProp("TEXTBEE_DEVICE_ID")}\"")
     }
 
     buildTypes {
@@ -35,6 +49,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
