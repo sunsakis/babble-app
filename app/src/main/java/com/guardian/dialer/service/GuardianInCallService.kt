@@ -1,10 +1,10 @@
 package com.guardian.dialer.service
 
 import android.content.Intent
-import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
 import android.telecom.Call
+import android.telecom.CallAudioState
 import android.telecom.InCallService
 import android.util.Log
 import com.guardian.dialer.InCallActivity
@@ -40,10 +40,13 @@ class GuardianInCallService : InCallService() {
             Log.d(TAG, "Call state changed: $state")
             when (state) {
                 Call.STATE_DISCONNECTED -> {
-                    onCallEnded(call)
+                    onCallEnded()
                 }
                 Call.STATE_ACTIVE -> {
                     // Call is now connected
+                }
+                else -> {
+                    // Handle other states if necessary
                 }
             }
         }
@@ -56,6 +59,7 @@ class GuardianInCallService : InCallService() {
         call.registerCallback(callCallback)
 
         val number = call.details?.handle?.schemeSpecificPart ?: ""
+        @Suppress("DEPRECATION")
         Log.i(TAG, "Call added: $number state=${call.state}")
 
         if (GuardianCallScreeningService.pendingAiCalls.remove(number)) {
@@ -76,15 +80,18 @@ class GuardianInCallService : InCallService() {
         if (currentCall == call) {
             currentCall = null
         }
-        onCallEnded(call)
+        onCallEnded()
     }
 
     private fun answerForAi(call: Call, number: String) {
-        if (call.state == Call.STATE_RINGING) {
+        @Suppress("DEPRECATION")
+        val state = call.state
+        if (state == Call.STATE_RINGING) {
             call.answer(/* videoState = */ 0) // audio-only
 
             // Route to speaker so AudioRecord can capture remote audio
             handler.postDelayed({
+                @Suppress("DEPRECATION")
                 setAudioRoute(CallAudioState.ROUTE_SPEAKER)
                 startElevenLabsBridge(number)
                 launchInCallUi(number, isAiHandled = true)
@@ -114,7 +121,7 @@ class GuardianInCallService : InCallService() {
         Log.i(TAG, "ElevenLabs bridge started for $callerNumber")
     }
 
-    private fun onCallEnded(call: Call) {
+    private fun onCallEnded() {
         activeBridge?.stop()
         activeBridge = null
     }
